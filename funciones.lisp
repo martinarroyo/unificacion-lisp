@@ -4,6 +4,7 @@
 	(print "Argumentos")
 	(print "e1") (print e1)
 	(print "e2") (print e2)
+	(break)
 	(cond 
 		((esatomo e1) (print "Camino 1") (unif e2 e1)) 
 		((esatomo e2) (print "Camino 2") (unif e1 e2))
@@ -14,6 +15,7 @@
 ;Subrutina para tratar símbolos
 
 (defun unif(e1 e2)
+	(break)
 	(cond 
 		((equal e1 e2) '(*))
 		((esvariable e1) (if (member (extraersimbolo e1) e2) NIL (list (extraersimbolo e2) (extraersimbolo e1))))
@@ -33,33 +35,34 @@
 
 ;Procesado de listas
 (defun unificarListas(e1 e2)
-	(defparameter f1 (first e1))
+	(break)
+	(set 'f1 (first e1))
 	(print "f1") ;Depuracion
 	(print f1) ;Depuracion
-	(defparameter t1 (rest e1))
+	(set 't1 (rest e1))
 	(print "t1") ;Depuracion
 	(print t1) ;Depuracion
 
-	(defparameter f2 (first e2))
+	(set 'f2 (first e2))
 	(print "f2")
 	(print f2)
 
-	(defparameter t2 (rest e2))
+	(set 't2 (rest e2))
 	(print "t2")
 	(print t2)
 
-	(defparameter z1 (unificar f1 f2))
+	(set 'z1 (unificar f1 f2))
 	(when (eq z1 NIL) NIL)
 	(print "z1")
 	(print z1)
 
-	(defparameter g1 (aplicar z1 t1))
+	(set 'g1 (aplicar z1 t1))
 	(print "g1") (print g1)
 	
-	(defparameter g2 (aplicar z1 t2))
+	(set 'g2 (aplicar z1 t2))
 	(print "g2") (print g2)
 
-	(defparameter z2 (unificar g1 g2))
+	(set 'z2 (unificar g1 g2))
 
 	(when (eq z2 NIL) NIL)
 	(print "z2")
@@ -70,7 +73,8 @@
 		((and (esnada z1) (esnada z2)) NIL)
 		((and (esnada z1) (not (esnada z2))) (list z2))
 		((and (esnada z2) (not (esnada z1))) (list z1))
-		(T (list (copy-list z1) (copy-list z2)))
+		(T (list z1 z2))
+		;(T (list (copy-list z1) (copy-list z2)))
 	)
 )
 
@@ -141,8 +145,8 @@
 )
 
 (defun aplicarRecursivo(sustitucion lista)
-	(defparameter s1 (first sustitucion)) ; (nth 0 sustitucion) es otro método
-	(defparameter s2 (first (rest sustitucion))) ; (nth 1 sustitucion) es otro método
+	(set 's1 (first sustitucion)) ; (nth 0 sustitucion) es otro método
+	(set 's2 (first (rest sustitucion))) ; (nth 1 sustitucion) es otro método
 	(when (eq lista '(*)) lista)
 		(if (eq lista '())
 		()

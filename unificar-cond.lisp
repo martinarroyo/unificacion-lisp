@@ -31,8 +31,10 @@
 
 			(set 'z1 (unificar f1 f2 unificador))
 			;(when (null z1) (throw 'unificarException 'no-unificable))
-			(setf unificador (append unificador (list z1)))
-			
+			(cond 
+				((miembro-unificador2 z1 unificador) unificador)
+				(T (setf unificador (append unificador (list z1))))
+			)
 			(set 'g1 (aplicar z1 t1))
 			(set 'g2 (aplicar z1 t2))
 
@@ -44,6 +46,27 @@
 	)
 )
 
+(defun miembro-unificador(miembro unificador)
+	(cond
+		((equal miembro unificador) T)
+		((atom unificador) NIL)
+		((eq (rest unificador) '()) NIL)
+		(T (or
+			(miembro-unificador miembro (first unificador))
+			(miembro-unificador miembro (rest unificador))
+			)
+		)
+	)
+)
+
+
+(defun miembro-unificador2(miembro unificador)
+	(cond 
+		((equal miembro (first unificador)) T)
+		((eq (rest unificador) '()) NIL)
+		(T (miembro-unificador2 miembro (rest unificador)))
+	)
+)
 
 (defun unif(e1 e2)
 	(cond
@@ -68,11 +91,11 @@
 	;(when (eq lista '(*)) lista)
 	(if (eq lista '())
 	()
-	(cons (sustituir (first sustitucion) (first (rest sustitucion)) (first lista))
-		(poner (first sustitucion) (first (rest sustitucion)) (rest lista))))
+	(cons (sustituir (first sustitucion) (second sustitucion) (first lista))
+		(poner (first sustitucion) (second sustitucion) (rest lista))))
 )
 
-(defun sustituir (a b elem)
+(defun sustituir (b a elem)
 	(if (eq elem a)
 	b
 	elem)

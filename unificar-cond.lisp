@@ -54,9 +54,18 @@
 	)
 )
 
+(defun aplicarUnificador (unificador lista)
+	(setf regla (first unificador))
+
+	(cond
+		((null unificador) lista)
+		(T 	(aplicarUnificador (rest unificador) (aplicar regla lista)))
+	)
+)
+
 
 (defun aplicar (sustitucion lista)
-	(when (eq lista '(*)) lista)
+	;(when (eq lista '(*)) lista)
 	(if (eq lista '())
 	()
 	(cons (sustituir (first sustitucion) (first (rest sustitucion)) (first lista))

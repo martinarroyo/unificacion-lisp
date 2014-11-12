@@ -30,6 +30,7 @@
 			(set 't2 (rest e2))
 
 			(set 'z1 (unificar f1 f2 unificador))
+			;(when (null z1) (throw 'unificarException 'no-unificable))
 			(setf unificador (append unificador (list z1)))
 			
 			(set 'g1 (aplicar z1 t1))
@@ -47,9 +48,9 @@
 (defun unif(e1 e2)
 	(cond
 		((esvariable e1) 
-			(if (and (not(atom e2)) (member (extraerSimbolo e1) e2)) NIL) (list e2 e1))
+			(if (and (not(atom e2)) (member (extraerSimbolo e1) e2)) (throw 'unificarException 'no-unificable)) (list e2 e1))
 		((esvariable e2) (list e1 e2))
-		(T (print "Los dos son atomos") NIL)
+		(T (print "Los dos son atomos") (throw 'unificarException 'no-unificable))
 	)
 )
 

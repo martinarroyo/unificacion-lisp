@@ -1,3 +1,4 @@
+(defparameter debug NIL)
 (defun unificarEntrada(e1 e2)
 	(let ((unificador nil))
 		(if (eql (first e1) (first e2)) 
@@ -17,12 +18,12 @@
 	(cond 
 		((eq e1 e2) unificador)
 		((or (null e1) (null e2)) (throw 'unificarException 'no-unificable))
-		((or (atom e1) (esvariable e1)) (print "Camino 1: e1 es atomo o variable") (unif e1 e2)) 
-		((or (atom e2) (esvariable e2)) (print "Camino 2: e2 es atomo o variable") (unif e2 e1))
+		((or (atom e1) (esvariable e1)) (when (eq debug T) (print "Camino 1: e1 es atomo o variable"))  (unif e1 e2)) 
+		((or (atom e2) (esvariable e2)) (when (eq debug T) (print "Camino 2: e2 es atomo o variable"))  (unif e2 e1))
 		((or (atom e1) (atom e2))
     		(throw 'unificarException 'no-unificable))
 		(T 
-			(print "Camino 3")
+			(when (eq debug T) (print "Camino 3: Son listas")) 
 			(set 'f1 (first e1))
 			(set 't1 (rest e1))
 
@@ -30,41 +31,24 @@
 			(set 't2 (rest e2))
 
 			(set 'z1 (unificar f1 f2 unificador))
-			;(when (null z1) (throw 'unificarException 'no-unificable))
 			(cond 
-				((miembro-unificador2 z1 unificador) unificador)
+				((miembro-unificador z1 unificador) unificador)
 				(T (setf unificador (append unificador (list z1))))
 			)
 			(set 'g1 (aplicar z1 t1))
 			(set 'g2 (aplicar z1 t2))
 
 			(set 'z2 (unificar g1 g2 unificador))
-			;(when (not (member z2 unificador)) (setf unificador (append unificador (list z2))))
-			;(setf unificador (append unificador (list '(a b))))
 		)
 
 	)
 )
 
 (defun miembro-unificador(miembro unificador)
-	(cond
-		((equal miembro unificador) T)
-		((atom unificador) NIL)
-		((eq (rest unificador) '()) NIL)
-		(T (or
-			(miembro-unificador miembro (first unificador))
-			(miembro-unificador miembro (rest unificador))
-			)
-		)
-	)
-)
-
-
-(defun miembro-unificador2(miembro unificador)
 	(cond 
 		((equal miembro (first unificador)) T)
 		((eq (rest unificador) '()) NIL)
-		(T (miembro-unificador2 miembro (rest unificador)))
+		(T (miembro-unificador miembro (rest unificador)))
 	)
 )
 
@@ -73,7 +57,7 @@
 		((esvariable e1) 
 			(if (and (not(atom e2)) (member (extraerSimbolo e1) e2)) (throw 'unificarException 'no-unificable)) (list e2 e1))
 		((esvariable e2) (list e1 e2))
-		(T (print "Los dos son atomos") (throw 'unificarException 'no-unificable))
+		(T (when (eq debug T) (print "Los dos son atomos"))  (throw 'unificarException 'no-unificable))
 	)
 )
 
@@ -88,7 +72,6 @@
 
 
 (defun aplicar (sustitucion lista)
-	;(when (eq lista '(*)) lista)
 	(if (eq lista '())
 	()
 	(cons (sustituir (first sustitucion) (second sustitucion) (first lista))
@@ -135,19 +118,6 @@
 (defparameter *literal9* '(? b))
 (defparameter *literal10* '(? a))
 
-
-;(unificar '(P (? x) B) '(P (? y) A))
-
-
-;;; Here is some test data:
-;(defparameter *literal1* '(p x (f a)))
-;(defparameter *literal2* '(p b y))
-;(defparameter *literal3* '(p (f x) (g a y)))
-;(defparameter *literal4* '(p (f (h b)) (g x y)))
-;(defparameter *literal5* '(p x))
-;(defparameter *literal6* '(p (f x)))
-;(defparameter *literal7* '(p x (f y) x))
-;(defparameter *literal8* '(p z (f z) a))
 
 ;;; Here's a function for demonstrating UNIFY.
 (defun show-unification (lit1 lit2)

@@ -81,6 +81,58 @@
 		((eq '? (first algo)) T)
 	)
 )
+
 (defun extraerSimbolo(simbolo)
 	(first (rest simbolo))
 )
+
+
+
+(defparameter *literal1* '(P x))
+(defparameter *literal2* '(P (? a)))
+(defparameter *literal3* '(P (? x) B))
+(defparameter *literal4* '(P A (? y)))
+(defparameter *literal5* '(P (? x) B (? c)))
+(defparameter *literal6* '(P y (? A) d))
+
+
+
+(defparameter *literal7* 'a)
+(defparameter *literal8* 'b)
+(defparameter *literal9* '(? b))
+(defparameter *literal10* '(? a))
+
+
+;(unificar '(P (? x) B) '(P (? y) A))
+
+
+;;; Here is some test data:
+;(defparameter *literal1* '(p x (f a)))
+;(defparameter *literal2* '(p b y))
+;(defparameter *literal3* '(p (f x) (g a y)))
+;(defparameter *literal4* '(p (f (h b)) (g x y)))
+;(defparameter *literal5* '(p x))
+;(defparameter *literal6* '(p (f x)))
+;(defparameter *literal7* '(p x (f y) x))
+;(defparameter *literal8* '(p z (f z) a))
+
+;;; Here's a function for demonstrating UNIFY.
+(defun show-unification (lit1 lit2)
+  "Prints out both inputs and output from UNIFY."
+  (format t "~%El resultado de  UNIFICAR on ~s and ~s is ~s."
+          lit1 lit2 (unificarEntrada lit1 lit2) ) )
+
+(defun test ()
+  "Calls UNIFY with sample arguments."
+  (show-unification *literal1* *literal2*)
+  (show-unification *literal3* *literal4*)
+  (show-unification *literal5* *literal6*)
+)
+  ;(show-unification *literal7* *literal8*)
+  
+  ;(let ((u (unify *literal7* *literal8*)))
+  ;  (format t "~%Result of applying U to ~s is ~s."
+  ;          *literal7* (do-subst *literal7* u) )
+  ;  (format t "~%Result of applying U to ~s is ~s."
+  ;          *literal8* (do-subst *literal8* u) )
+  ;) )

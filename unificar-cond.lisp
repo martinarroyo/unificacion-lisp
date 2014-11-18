@@ -1,4 +1,5 @@
-(defparameter debug NIL)
+(defparameter debug NIL) ;Parametros de depuracion
+
 (defun unificarEntrada(e1 e2)
 	(let ((unificador nil))
 		(if (eql (first e1) (first e2)) 
@@ -8,20 +9,13 @@
 	)
 )
 
-(defun unificarPrueba(e1 e2)
-	(let ((unificador nil))
-			(catch 'unificarException (unificar e1 e2 unificador))			
-	)
-)
-
 (defun unificar(e1 e2 unificador)
 	(cond 
 		((eq e1 e2) unificador)
 		((or (null e1) (null e2)) (throw 'unificarException 'no-unificable))
 		((or (atom e1) (esvariable e1)) (when (eq debug T) (print "Camino 1: e1 es atomo o variable"))  (unif e1 e2)) 
 		((or (atom e2) (esvariable e2)) (when (eq debug T) (print "Camino 2: e2 es atomo o variable"))  (unif e2 e1))
-		((or (atom e1) (atom e2))
-    		(throw 'unificarException 'no-unificable))
+		((or (atom e1) (atom e2)) (throw 'unificarException 'no-unificable))
 		(T 
 			(when (eq debug T) (print "Camino 3: Son listas")) 
 			(set 'f1 (first e1))
@@ -45,6 +39,7 @@
 )
 
 (defun miembro-unificador(miembro unificador)
+	;Indica si un unificador ya se encuentra dentro de la lista o no
 	(cond 
 		((equal miembro (first unificador)) T)
 		((eq (rest unificador) '()) NIL)
@@ -57,7 +52,9 @@
 		((esvariable e1) 
 			(if (and (not(atom e2)) (member (extraerSimbolo e1) e2)) (throw 'unificarException 'no-unificable)) (list e2 e1))
 		((esvariable e2) (list e1 e2))
-		(T (when (eq debug T) (print "Los dos son atomos"))  (throw 'unificarException 'no-unificable))
+		(T 
+			(when (eq debug T) (print "Los dos son atomos"))  
+			(throw 'unificarException 'no-unificable))
 	)
 )
 
@@ -101,8 +98,6 @@
 (defun extraerSimbolo(simbolo)
 	(first (rest simbolo))
 )
-
-
 
 (defparameter *literal1* '(P x))
 (defparameter *literal2* '(P (? a)))

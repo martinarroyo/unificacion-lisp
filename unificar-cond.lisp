@@ -76,9 +76,20 @@
 )
 
 (defun sustituir (b a elem)
-	(if (eq elem a)
-	b
-	elem)
+	(cond
+		((esFuncion elem) (cons (first elem) (sustituirFuncion b a (rest elem))))	
+		(T 
+			(if (eq elem a)
+			b
+			elem)
+		)
+	)
+)
+
+(defun sustituirFuncion(b a lista)
+	(if (eq lista '())
+	()
+	(cons (sustituir a b (first lista))(poner a b (rest lista))))
 )
 
 (defun poner (a b lista)
@@ -95,7 +106,6 @@
 		((and (listp algo) (> (list-length algo) 1)) T) ;completar
 		(T NIL)
 	)
-
 )
 
 

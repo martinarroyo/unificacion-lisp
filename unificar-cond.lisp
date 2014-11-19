@@ -1,4 +1,4 @@
-(defparameter debug NIL) ;Parametros de depuracion
+(defparameter debug T) ;Parametros de depuracion
 
 (defun unificarEntrada(e1 e2)
 	(let ((unificador nil))
@@ -85,6 +85,17 @@
 (if (eq lista '())
 ()
 (cons (sustituir a b (first lista))(poner a b (rest lista))))
+)
+
+
+(defun esFuncion(algo)
+	(cond 
+		((atom algo) NIL)
+		((esvariable algo) NIL)
+		((and (listp algo) (> (list-length algo) 1)) T) ;completar
+		(T NIL)
+	)
+
 )
 
 

@@ -196,6 +196,31 @@
 
 ;Probar unificar y unificarEntrada tienen como diferencia procesar o no el primer elemento
 
+
+(setf test1 '(? x))
+(setf test2 '(? y))
+
+
+(setf test3 '(? x))
+(setf test4 'y)
+(setf test5 'P)
+(setf test6 'P)
+(setf test7 'a)
+(setf test8 'b)
+
+(defun probarUnif(e1 e2)
+	(catch 'unificarException (unif e1 e2))
+)
+
+(format t "~%~%Probando la unificación de dos elementos individuales (Función unif)~%")
+(format t "La unificación de ~s y ~s es ~s~%" test1 test2 (probarUnif test1 test2))
+(format t "La unificación de ~s y ~s es ~s~%" test3 test4 (probarUnif test3 test4))
+(format t "La unificación de ~s y ~s es ~s~%" test5 test6 (probarUnif test5 test6))
+(format t "La unificación de ~s y ~s es ~s~%" test7 test8 (probarUnif test7 test8))
+
+
+
+
 ;(defun unif(e1 e2)
 ;	(cond
 ;		((esvariable e1) 

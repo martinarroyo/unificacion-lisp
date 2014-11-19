@@ -151,50 +151,51 @@
 (format t "sustituir retorna ~s para ~s, ~s y ~s~%" (sustituir test4 test5 test6) test4 test5 test6)
 (format t "sustituir retorna ~s para ~s, ~s y ~s~%" (sustituir test7 test8 test9) test7 test8 test9)
 
-;;;
 
-;
-;
-;(defun unificarEntrada(e1 e2)
-;	(let ((unificador nil))
-;		(if (eql (first e1) (first e2)) 
-;			(catch 'unificarException (unificar (rest e1) (rest e2) unificador))
-;			'no-unificable
-;		)
-;	)
-;)
-;
-;(defun unificar(e1 e2 unificador)
-;	(cond 
-;		((eq e1 e2) unificador)
-;		((or (null e1) (null e2)) (throw 'unificarException 'no-unificable))
-;		((or (atom e1) (esvariable e1)) (when (eq debug T) (print "Camino 1: e1 es atomo o variable"))  (unif e1 e2)) 
-;		((or (atom e2) (esvariable e2)) (when (eq debug T) (print "Camino 2: e2 es atomo o variable"))  (unif e2 e1))
-;		((or (atom e1) (atom e2)) (throw 'unificarException 'no-unificable))
-;		(T 
-;			(when (eq debug T) (print "Camino 3: Son listas")) 
-;			(set 'f1 (first e1))
-;			(set 't1 (rest e1))
-;
-;			(set 'f2 (first e2))
-;			(set 't2 (rest e2))
-;
-;			(set 'z1 (unificar f1 f2 unificador))
-;			(cond 
-;				((miembro-unificador z1 unificador) unificador)
-;				(T (setf unificador (append unificador (list z1))))
-;			)
-;			(set 'g1 (aplicar z1 t1))
-;			(set 'g2 (aplicar z1 t2))
-;
-;			(set 'z2 (unificar g1 g2 unificador))
-;		)
-;
-;	)
-;)
-;
+(setf test1 '(? x))
+(setf test2 '(P x))
+(setf test3 '(x))
+(setf test4 '(f r))
+(setf test5 '())
+(setf test6 'a)
+(setf test7 '(q h m (? x)))
 
-;
+(format t "~%~%Probando esFuncion~%")
+(format t "esFuncion retorna ~s para ~s~%" (esFuncion test1) test1)
+(format t "esFuncion retorna ~s para ~s~%" (esFuncion test2) test2)
+(format t "esFuncion retorna ~s para ~s~%" (esFuncion test3) test3)
+(format t "esFuncion retorna ~s para ~s~%" (esFuncion test4) test4)
+(format t "esFuncion retorna ~s para ~s~%" (esFuncion test5) test5)
+(format t "esFuncion retorna ~s para ~s~%" (esFuncion test6) test6)
+(format t "esFuncion retorna ~s para ~s~%" (esFuncion test7) test7)
+
+(setf test1 '(P x))
+(setf test2 '(P y))
+(setf test3 '(P (? x)))
+(setf test4 '(P (? y)))
+(setf test5 '(P x))
+(setf test6 '(P (? y)))
+(setf test7 '(P x))
+(setf test8 '(Q x))
+(setf test9 '(P (? x) y))
+(setf test10 '(P M (? n)))
+(setf test11 '(P (? x) (? y)))
+(setf test12 '(P (? x) (? x)))
+(setf test13 '(P (f y) y))
+(setf test14 '(P (? x) (? n)))
+
+(format t "~%~%Probando la unificacion~%")
+(format t "La unificacion de ~s y ~s es ~s~%" test1 test2 (unificarEntrada test1 test2))
+(format t "La unificacion de ~s y ~s es ~s~%" test3 test4 (unificarEntrada test3 test4))
+(format t "La unificacion de ~s y ~s es ~s~%" test5 test6 (unificarEntrada test5 test6))
+(format t "La unificacion de ~s y ~s es ~s~%" test7 test8 (unificarEntrada test7 test8))
+(format t "La unificacion de ~s y ~s es ~s~%" test9 test10 (unificarEntrada test9 test10))
+(format t "La unificacion de ~s y ~s es ~s~%" test11 test12 (unificarEntrada test11 test12))
+(format t "La unificacion de ~s y ~s es ~s~%" test13 test14 (unificarEntrada test13 test14))
+
+
+;Probar unificar y unificarEntrada tienen como diferencia procesar o no el primer elemento
+
 ;(defun unif(e1 e2)
 ;	(cond
 ;		((esvariable e1) 
@@ -205,23 +206,3 @@
 ;			(throw 'unificarException 'no-unificable))
 ;	)
 ;)
-;
-;(defun aplicarUnificador (unificador lista)
-;	(setf regla (first unificador))
-;
-;	(cond
-;		((null unificador) lista)
-;		(T 	(aplicarUnificador (rest unificador) (aplicar regla lista)))
-;	)
-;)
-;
-;
-;(defun aplicar (sustitucion lista)
-;	(if (eq lista '())
-;	()
-;	(cons (sustituir (first sustitucion) (second sustitucion) (first lista))
-;		(poner (first sustitucion) (second sustitucion) (rest lista))))
-;)
-;
-
-

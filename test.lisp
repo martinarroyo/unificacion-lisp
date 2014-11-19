@@ -58,13 +58,6 @@
 ;	(cons (sustituir (first sustitucion) (second sustitucion) (first lista))
 ;		(poner (first sustitucion) (second sustitucion) (rest lista))))
 ;)
-;
-;(defun sustituir (b a elem)
-;	(if (eq elem a)
-;	b
-;	elem)
-;)
-;
 
 
 (format t "~%~%Probando poner~%")
@@ -86,8 +79,28 @@
 (format t "Poner tiene como resultado ~s para la sustitución (~s, ~s) en ~s~%" (poner test7 test8 test9) test7 test8 test9)
 
 
-(format t "~%~%Probando sustituir~%")
+(setf test1 'a)
+(setf test2 'b)
+(setf test3 'a)
 
+(setf test4 '(? x))
+(setf test5 'y)
+(setf test6 '(? X))
+
+(setf test7 'a)
+(setf test8 '(? b))
+(setf test9 'a)
+
+
+(setf test10 '(? x))
+(setf test11 '(? y))
+(setf test12 '(? y))
+
+(format t "~%~%Probando sustituir~%")
+(format t "sustituir tiene como resultado ~s para la sustitucion (~s, ~s) sobre ~s~%" (sustituir test1 test2 test3) test1 test2 test3)
+(format t "sustituir tiene como resultado ~s para la sustitucion (~s, ~s) sobre ~s~%" (sustituir test4 test5 test6) test4 test5 test6)
+(format t "sustituir tiene como resultado ~s para la sustitucion (~s, ~s) sobre ~s~%" (sustituir test7 test8 test9) test7 test8 test9)
+(format t "sustituir tiene como resultado ~s para la sustitucion (~s, ~s) sobre ~s~%" (sustituir test10 test11 test12) test10 test11 test12)
 
 (format t "~%~%Probando esvariable~%")
 

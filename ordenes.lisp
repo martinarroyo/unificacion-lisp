@@ -42,3 +42,10 @@
 ;(F (? X))
 ;[49]> (sustituir 'A '(? X) '(f a))
 ;(F (? X))
+
+
+;[60]> (unificarentrada '(P (? x) B (? c)) '(P A (? y) (f A)))
+;((A (? X)) (B (? Y)) ((F (? X)) (? C)))
+;[61]> (unificarentrada '(P (? x) B (? c)) '(P A (? y) (f A B)))
+;((A (? X)) (B (? Y)) ((F (? X) (? Y)) (? C)))
+;[62]> 

@@ -1,4 +1,4 @@
-(defparameter debug T) ;Parametros de depuracion
+(defparameter debug NIL) ;Parametros de depuracion
 
 (defun unificarEntrada(e1 e2)
 	(let ((unificador nil))
@@ -63,7 +63,7 @@
 
 	(cond
 		((null unificador) lista)
-		(T 	(aplicarUnificador (rest unificador) (aplicar regla lista)))
+		(T 	(aplicarUnificador (rest unificador) (aplicar (first unificador) lista)))
 	)
 )
 

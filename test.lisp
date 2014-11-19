@@ -65,14 +65,31 @@
 ;	elem)
 ;)
 ;
-;(defun poner (a b lista)
-;(if (eq lista '())
-;()
-;(cons (sustituir a b (first lista))(poner a b (rest lista))))
-;)
-;
 
-(format t "Probando esvariable~%")
+
+(format t "~%~%Probando poner~%")
+(setf test1 'a)
+(setf test2 'b)
+(setf test3 '(a b))
+
+(setf test4 '(? x))
+(setf test5 'y)
+(setf test6 '((? x) y))
+
+(setf test7 '(? X))
+(setf test8 '(? Y))
+(setf test9 '(a b))
+
+
+(format t "Poner tiene como resultado ~s para la sustitución (~s, ~s) en ~s~%" (poner test1 test2 test3) test1 test2 test3)
+(format t "Poner tiene como resultado ~s para la sustitución (~s, ~s) en ~s~%" (poner test4 test5 test6) test4 test5 test6)
+(format t "Poner tiene como resultado ~s para la sustitución (~s, ~s) en ~s~%" (poner test7 test8 test9) test7 test8 test9)
+
+
+(format t "~%~%Probando sustituir~%")
+
+
+(format t "~%~%Probando esvariable~%")
 
 (setf test1 '())
 (setf test2 '(? x))
@@ -96,7 +113,7 @@
 (setf test5 '(((? x) (? b))))
 (setf test6 '(A))
 
-(format t "extraerSimbolo~%")
+(format t "~%~%extraerSimbolo~%")
 
 (format t "extraerSimbolo retorna ~s para ~s~%" (extraerSimbolo test1) test1)
 (format t "extraerSimbolo retorna ~s para ~s~%" (extraerSimbolo test2) test2)
@@ -184,14 +201,14 @@
 (setf test13 '(P (f y) y))
 (setf test14 '(P (? x) (? n)))
 
-(format t "~%~%Probando la unificacion~%")
-(format t "La unificacion de ~s y ~s es ~s~%" test1 test2 (unificarEntrada test1 test2))
-(format t "La unificacion de ~s y ~s es ~s~%" test3 test4 (unificarEntrada test3 test4))
-(format t "La unificacion de ~s y ~s es ~s~%" test5 test6 (unificarEntrada test5 test6))
-(format t "La unificacion de ~s y ~s es ~s~%" test7 test8 (unificarEntrada test7 test8))
-(format t "La unificacion de ~s y ~s es ~s~%" test9 test10 (unificarEntrada test9 test10))
-(format t "La unificacion de ~s y ~s es ~s~%" test11 test12 (unificarEntrada test11 test12))
-(format t "La unificacion de ~s y ~s es ~s~%" test13 test14 (unificarEntrada test13 test14))
+(format t "~%~%Probando la unificación~%")
+(format t "La unificación de ~s y ~s es ~s~%" test1 test2 (unificarEntrada test1 test2))
+(format t "La unificación de ~s y ~s es ~s~%" test3 test4 (unificarEntrada test3 test4))
+(format t "La unificación de ~s y ~s es ~s~%" test5 test6 (unificarEntrada test5 test6))
+(format t "La unificación de ~s y ~s es ~s~%" test7 test8 (unificarEntrada test7 test8))
+(format t "La unificación de ~s y ~s es ~s~%" test9 test10 (unificarEntrada test9 test10))
+(format t "La unificación de ~s y ~s es ~s~%" test11 test12 (unificarEntrada test11 test12))
+(format t "La unificación de ~s y ~s es ~s~%" test13 test14 (unificarEntrada test13 test14))
 
 
 ;Probar unificar y unificarEntrada tienen como diferencia procesar o no el primer elemento
@@ -217,17 +234,3 @@
 (format t "La unificación de ~s y ~s es ~s~%" test3 test4 (probarUnif test3 test4))
 (format t "La unificación de ~s y ~s es ~s~%" test5 test6 (probarUnif test5 test6))
 (format t "La unificación de ~s y ~s es ~s~%" test7 test8 (probarUnif test7 test8))
-
-
-
-
-;(defun unif(e1 e2)
-;	(cond
-;		((esvariable e1) 
-;			(if (and (not(atom e2)) (member (extraerSimbolo e1) e2)) (throw 'unificarException 'no-unificable)) (list e2 e1))
-;		((esvariable e2) (list e1 e2))
-;		(T 
-;			(when (eq debug T) (print "Los dos son atomos"))  
-;			(throw 'unificarException 'no-unificable))
-;	)
-;)

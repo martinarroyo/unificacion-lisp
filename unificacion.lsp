@@ -111,11 +111,11 @@
 ;(first(rest '((c (? z)) (d (? w)))))
 ; (componer1 '((g (? x) (? y))(? z)) '(a (? x)))
 ;(unificacion '((m (? x) r) (cl (? x) a)) '((m me r) (m l r) (m c5 ci) (cl me ro) (cl l a) (cl c5 a)))
-;(unificacion '(p (? x) (h (? y))) '(p j (? z)))
-;(unificacion '(p a (f (? x) b) (? y)) '(p (? x) (f (g (? y)) (? z)) (? w)))
-;(unificacion '(p a (? x) (h (g (? z)))) '(p (? z) (h (? y)) (h (? y))))
+;(unificacion '(p (? x) (h (? y))) '(p j (? z))) Funciona
+;(unificacion '(p a (f (? x) b) (? y)) '(p (? x) (f (g (? y)) (? z)) (? w))) No funciona
+;(unificacion '(p a (? x) (h (g (? z)))) '(p (? z) (h (? y)) (h (? y)))) Mehr oder weniger
 ;(unificarnoatomo '(p a (? x) (h (g (? z)))) '(p (? z) (h (? y))(h (? y))))
 ;(componer1 '(((h (? y))(? x)) ((g b) (? y))) '(b (? z)))
 ;(componer1 '((h (? y))(? x)) '((g a) (? y)))
-;(unificacion '(p a (? x)) '(p (? x) (? y)))
+;(unificacion '(p a (? x)) '(p (? x) (? y))) Mehr oder weniger
 	

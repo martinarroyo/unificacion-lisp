@@ -38,6 +38,11 @@
 	)
 )
 
+(defun sustituir(regla lista)
+
+
+)
+
 (defun miembro-unificador(miembro unificador)
 	;Indica si un unificador ya se encuentra dentro de la lista o no
 	(cond 
@@ -67,20 +72,30 @@
 	)
 )
 
+(defun aplicar(sustitucion lista)
+	(if (eq lista '())
+	()
+	(cons (sustituir (first sustitucion) (second sustitucion) (first lista))
+		(poner (first sustitucion) (second sustitucion) (rest lista)))
+	)
+)
 
-(defun aplicar (sustitucion lista)
+(defun aplicarOld (sustitucion lista)
 	(if (eq lista '())
 	()
 	(cons (sustituir (first sustitucion) (second sustitucion) (first lista))
 		(poner (first sustitucion) (second sustitucion) (rest lista))))
 )
 
-(defun sustituir (b a elem)
+(defun sustituir (a b elem)
 	(cond
-		((esFuncion elem) (cons (first elem) (sustituirFuncion b a (rest elem))))	
+		;((esFuncion elem) (cons (first elem) (sustituirFuncion b a (rest elem))))	
 		(T 
-			(if (eq elem a)
-			b
+			(print elem)
+			(print (first (rest elem)))
+			(print b)
+			(if (eq (extraerSimbolo (first (rest elem))) (extraersimbolo b))
+			a
 			elem)
 		)
 	)
@@ -117,7 +132,11 @@
 )
 
 (defun extraerSimbolo(simbolo)
-	(first (rest simbolo))
+	(if (esvariable simbolo)
+
+		(first (rest simbolo))
+		simbolo
+	)
 )
 
 (defparameter *literal1* '(P x))

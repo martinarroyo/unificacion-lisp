@@ -89,19 +89,17 @@
 
 (defun sustituir (a b elem)
 	(cond
+		;((esFuncion (first elem)) (print "Es funcion") (cons (first elem) (sustituirFuncion a b (rest elem))))
 		;((esFuncion elem) (cons (first elem) (sustituirFuncion b a (rest elem))))	
 		(T 
-			(print elem)
-			(print (first (rest elem)))
-			(print b)
 			(if (eq (extraerSimbolo (first (rest elem))) (extraersimbolo b))
-			a
+			a;(cons a (list (second elem)))
 			elem)
 		)
 	)
 )
 
-(defun sustituirFuncion(b a lista)
+(defun sustituirFuncion(a b lista)
 	(if (eq lista '())
 	()
 	(cons (sustituir a b (first lista))(poner a b (rest lista))))

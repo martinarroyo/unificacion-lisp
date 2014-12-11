@@ -5,10 +5,12 @@
 (defun unificacion(e1 e2)
   (let ((u nil))
     (if (eql (first e1) (first e2)) 
-      (catch 'unificarException (unificar (rest e1) (rest e2) u))
+      (catch 'unificarException (reverse (unificar (rest e1) (rest e2) u)))
       'no-unificable
     )
   )
+
+
 )
 
 

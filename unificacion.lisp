@@ -8,21 +8,19 @@
       'no-unificable
     )
   )
-
-
 )
 
 
 (defun anadir(e1 e2 u)
-   (cond
-      ((esvariable e1) 
-        (if (and (not(atom e2)) (member (extraerSimbolo e1) e2)) (throw 'unificarException 'no-unificable)) (cons (list e2 e1) (sustituir e2 e1 u)))
-      ((esvariable e2) (cons (list e1 e2)(sustituir e1 e2 u)))
-      (T 
-        (when (eq debug T) (print "Los dos son atomos"))  
-        (throw 'unificarException 'no-unificable))
-    )
+  (cond
+    ((esvariable e1) 
+      (if (and (not(atom e2)) (member (extraerSimbolo e1) e2)) (throw 'unificarException 'no-unificable)) (cons (list e2 e1) (sustituir e2 e1 u)))
+    ((esvariable e2) (cons (list e1 e2)(sustituir e1 e2 u)))
+    (T 
+      (when (eq debug T) (print "Los dos son atomos"))  
+      (throw 'unificarException 'no-unificable))
   )
+)
 
 (defun hacer-sustitucion(expresion lista)
   (cond 

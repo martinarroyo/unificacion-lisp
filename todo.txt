@@ -1,4 +1,0 @@
-Problemas con funciones
-Lanzar excepciones en todos los casos en los que no se pueda continuar #Resuelto salvo caso raro
-Aplicar tiene que funcionar de forma independiente (por ejemplo, con el unificador retornado). Crear una función aparte o incluir una nueva
-Eliminar el símbolo (*) (Nada)

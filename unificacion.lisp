@@ -1,153 +1,80 @@
-(defun unificar (e1 e2)
-(cond
-(((not (esvariable e1)) and (atom (first e1))) (unif e1 e2))
-(((not (esvariable e2)) and (atom (first e2))) (unif e2 e1))
-(T 1)
-)
-)
+(defparameter debug NIL) ;Parametros de depuracion
 
 
-(defun unificar (e1 e2)
-	(cond 
-		((and (not (esvariable e1)) (atom (first e1))) (unif e1 e2))
-		((and (not (esvariable e2)) (atom (first e2))) (unif e2 e1))
-		(T 1)
-	)
-)
-
-(defun extraerSimbolo(simbolo)
-	(if (esvariable simbolo) 
-		(first (rest simbolo))
-		(first simbolo)
-	)
-)
-
-(defun esnada (simbolo)
-	(and (eq '* (first simbolo)) (eq (length simbolo) 1))
-)
-
-(defun esatomo(algo)
-	(not (eq '? (first algo)))
+(defun unificacion(e1 e2)
+  (let ((u nil))
+    (if (eql (first e1) (first e2)) 
+      (catch 'unificarException (reverse (unificar (rest e1) (rest e2) u)))
+      'no-unificable
+    )
+  )
 )
 
 
+(defun anadir(e1 e2 u)
+   (cond
+      ((esvariable e1) 
+        (if (and (not(atom e2)) (member (extraerSimbolo e1) e2)) (throw 'unificarException 'no-unificable)) (cons (list e2 e1) (sustituir e2 e1 u)))
+      ((esvariable e2) (cons (list e1 e2)(sustituir e1 e2 u)))
+      (T 
+        (when (eq debug T) (print "Los dos son atomos"))  
+        (throw 'unificarException 'no-unificable))
+    )
+  )
+
+(defun hacer-sustitucion(expresion lista)
+  (cond 
+    ((null lista) expresion)
+    (t (sustituir (first (first lista)) (second (first lista))
+        (hacer-sustitucion expresion (rest lista))))
+  )
+)
 
 
+(defun unificar(e1 e2 u)
+  (cond 
+    ((eq e1 e2) u)
+    ((or (null e1) (null e2)) (throw 'unificarException 'no-unificable))
+    ((or (atom e1) (esvariable e1)) (when (eq debug T) (print "Camino 1: e1 es atomo o variable"))  (anadir e1 e2 u)) 
+    ((or (atom e2) (esvariable e2)) (when (eq debug T) (print "Camino 2: e2 es atomo o variable"))  (anadir e2 e1 u))
+    ((or (atom e1) (atom e2)) (throw 'unificarException 'no-unificable))
+    
+    (T (setf u (unificar (hacer-sustitucion (first e1) u)
+                         (hacer-sustitucion (first e2) u)
 
-(T (unificarListas e1 e2))))
+                u))
+
+    (unificar (rest e1) (rest e2) u)
+    )
+  )
+)
 
 
 (defun esvariable (algo)
-(eq '? (first algo)))
-
-(defun unif(e1 e2)
-	(cond 
-		((eq e1 e2) '(*))
-		((esvariable e1) (if (member (first (rest e1)) e2) NIL '(e2 e1)))
-		((esvariable e2) '(e1 e2))
-		(T NIL)
-	)
+  (cond 
+    ((atom algo) NIL)
+    ((eq '? (first algo)) T)
+  )
 )
 
-(defun unificarListas (e1 e2)
-	(defparameter f1 (first e1))
-	(defparameter t1 (rest e1))
-	(defparameter f2 (first e2))
-	(defparameter t2 (rest e2))
-	(defparameter z1 (unificar e1 e2))
-	(when (eq z1 NIL) NIL)
+(defun extraerSimbolo(simbolo)
+  (if (esvariable simbolo)
 
-	(defparameter g1 (aplicar z1 t1))
-	(defparameter g2 (aplicar z2 t2))
-	(defparameter z2 (unificar e1 e2))
-	(when (eq z2 NIL) NIL)
-	"retornar la composición de z1 y z2"
-	
-	T
+    (first (rest simbolo))
+    simbolo
+  )
 )
 
-(defun sustituir (a b elem)
-(if (eq elem a)
-b
-elem))
-
-(defun poner (a b lista)
-(if (eq lista '())
-()
-(cons (sustituir a b (first lista))(poner a b (rest lista))))
+(defun sustituir(a b lista)
+  (cond
+    ((null lista) nil)
+    ((eq (extraersimbolo lista) (extraersimbolo b)) a)
+    ((or (atom lista) (esvariable lista)) lista)
+    ((eq (extraersimbolo b) (extraersimbolo (first lista)))
+      (cons a (sustituir a b (rest lista))))
+    ((or (atom (first lista)) (esvariable (first lista)))
+      (cons (first lista) (sustituir a b (rest lista))))
+    (t (cons (sustituir a b (first lista))
+             (sustituir a b (rest lista))))
+  )
 )
-
-; ejemplo de uso: (poner 'a 'b '(a b c))
-
-(defun aplicarRecursivo(sustitucion lista)
-	(if (eq lista '())
-
-	)
-)
-
-(defun aplicar (sustitucion lista)
-(when (eq lista '(*)) lista)
-(if (eq lista '())
-()
-(cons (sustituir (first sustitucion) (first (rest sustitucion)) (first lista))(poner (first sustitucion) (first (rest sustitucion)) (rest lista))))
-)
-
-
-
-"(defun unificar (e1 e2)
-(cond
-((atom e1) (unif e1 e2))
-((atom e2) (unif e2 e1))
-(T (unificarListas e1 e2))))"
-
-
-
-
-(defun unificar(e1 e2)
-	(cond 
-		((esatomo e1) (unif e2 e1)) 
-		((esatomo e2) (unif e1 e2))
-		(T (unificarListas e1 e2))
-	)
-)
-
-(defun unif(e1 e2)
-	(cond 
-		((equal e1 e2) '(*))
-		((esvariable e1) (if (member (first (rest e1)) e2) NIL '(e2 e1)))
-		((esvariable e2) '('e1 'e2))
-	)
-)
-
-(defun unificarListas(e1 e2)
-	(defparameter f1 (first e1))
-	(defparameter t1 (rest e1))
-
-	(defparameter f2 (first e2))
-	(defparameter t2 (rest e2))
-
-	(defparameter z1 (unificar e1 e2))
-	(when (eq z1 NIL) NIL)
-	(defparameter g1 (aplicar z1 t1))
-	(defparameter g2 (aplicar z2 t2))
-	(when (eq z2 NIL) NIL)
-	(list z1 z2)
-)
-
-
-
-
-"(defun unificarListas (e1 e2)
-	(defparameter f1 (first e1))
-	(defparameter t1 (rest e1))
-	(defparameter f2 (first e2))
-	(defparameter t2 (rest e2))
-	(defparameter z1 (unificar e1 e2))
-	(when (eq z1 NIL) NIL)
-
-	(defparameter g1 (aplicar z1 t1))
-	(defparameter g2 (aplicar z2 t2))
-	(defparameter z2 (unificar e1 e2))
-	(when (eq z2 NIL) NIL)
-	T
-)"

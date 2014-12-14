@@ -51,7 +51,28 @@
 ;((A (? X)) (B (? Y)) ((F (? X) (? Y)) (? C)))
 ;[62]> 
 
-(load "unificar-cond.lisp")
+(load "unificacion.lisp")
+
+(setf datos (list 'unificacion '(P a) '(P (? b)) '((A (? B)))))
+
+(defun testeo (datos)
+	(compararResultados (funcall (first datos) (second datos) (third datos)) (fourth datos))
+)
+
+(defun compararResultados (resultado expected)
+	(cond 
+		((and (eq resultado nil) (eq expected nil)) T)
+		((or (eq resultado nil) (eq expected nil)) nil)
+		(T
+			(and (compararElemento (first resultado) (first expected)) (compararResultados (rest resultado) (rest expected))))
+	)
+)
+
+(defun compararElemento (e1 e2)
+	(and (eq (first (extraerSimbolo e1)) (first (extraerSimbolo e2))) 
+		(eq (extraersimbolo (second e1)) (extraersimbolo (second e2)))
+	)
+)
 
 ;Probar miembro unificador
 

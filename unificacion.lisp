@@ -1,7 +1,6 @@
 (defparameter debug NIL) ;Parametros de depuracion
 
 
-
 (defun unificacion(e1 e2)
   (let ((u nil))
     (if (eql (first e1) (first e2)) 

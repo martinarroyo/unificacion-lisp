@@ -20,7 +20,7 @@
    (cond
       ((esvariable e1) ; Si e1 es variable, se annade el par e2/e1
         (if (and (not(atom e2)) (member (extraerSimbolo e1) e2)) ; Si e1 aparece en e2, no es unificable. En caso contrario, annadimos el par
-          (throw 'unificarException 'no-unificable)) 
+          (throw 'unificarException 'no-unificable))
         (cons (list e2 e1) (sustituir e2 e1 u)))
       
       ; Si e2 es variable, se annade el par e1/e2
@@ -46,6 +46,7 @@
   (cond 
     ; Si son iguales, el unificador no se altera
     ((eq e1 e2) u) 
+    ((eq (extraersimbolo e1) (extraersimbolo e2)) u)
     ; Si una de las listas esta vacia y la otra no, significa que tienen diferente longitud, por lo tanto, no son unificables
     ((or (null e1) (null e2)) (throw 'unificarException 'no-unificable))  ; Si e1 es variable o atomo, consideramos el par e2/e1
     ((or (atom e1) (esvariable e1)) (when (eq debug T) (print "Camino 1: e1 es atomo o variable"))  (anadir e1 e2 u)) 
